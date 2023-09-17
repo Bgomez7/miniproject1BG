@@ -5,29 +5,21 @@
 import yfinance as yf
 import numpy as np
 import matplotlib.pyplot as plt
-
-
-def get_closing(ticker_list:list):
-    # get 10 day history of each stock
-    hist = [yf.Ticker(stock).history(period="10d") for stock in ticker_list]
-
-    closing_list = {}
-    for i, stock in enumerate(hist):
-        # closing for 10 days
-        data = [f"{closing:.2f}" for closing in stock["Close"]]
-        closing_list[ticker_list[i]] = data  # add entry
-
-    return closing_list
+from pathlib import Path
 
 
 def get_closing_one(ticker):
     # Get 10 day history of a stock
     hist = yf.Ticker(ticker).history(period="10d")
-    # Get the closing price for each day
-    closing_list = [price for price in hist["Close"]]
+    # return the closing price for each day
+    return [price for price in hist["Close"]]
 
-    return closing_list
 
+# Create charts directory
+try:
+    Path("charts").mkdir()
+except FileExistsError:
+    pass
 
 stocks = ["META", "AMZN", "GOOG", "NFLX", "MSFT"]
 for stock in stocks:
