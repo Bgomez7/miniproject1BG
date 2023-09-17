@@ -15,10 +15,10 @@ def get_stocks():
         # verify the stocks
         while True:
             print(f"Enter stock ticker {i}")
-            ticker = yf.Ticker(input(""))
+            ticker = input(">")
             try:
                 print("Verifying...")
-                ticker.info
+                yf.Ticker(ticker).info
                 print("Valid")
                 stocks.append(ticker)
                 break
@@ -30,7 +30,7 @@ def get_stocks():
 
 def get_closing(ticker):
     # Get 10 day history of a stock
-    hist = ticker.history(period="10d")
+    hist = yf.Ticker(ticker).history(period="10d")
     # return the closing price for each day
     return [price for price in hist["Close"]]
 
