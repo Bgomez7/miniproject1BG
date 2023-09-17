@@ -8,23 +8,36 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 
 
-def get_closing_one(ticker):
+def get_stocks():
+    stocks = []
+    # get 5 stocks
+    for i in range(1,6):
+        # verify the stocks
+        while True:
+            print(f"Enter stock ticker {i}")
+            ticker = yf.Ticker(input(""))
+            try:
+                print("Verifying...")
+                ticker.info
+                print("Valid")
+                stocks.append(ticker)
+                break
+            except:
+                print("Invalid stock ticker")
+    return stocks
+
+
+
+def get_closing(ticker):
     # Get 10 day history of a stock
-    hist = yf.Ticker(ticker).history(period="10d")
+    hist = ticker.history(period="10d")
     # return the closing price for each day
     return [price for price in hist["Close"]]
 
 
-# Create charts directory
-try:
-    Path("charts").mkdir()
-except FileExistsError:
-    pass
-
-stocks = ["META", "AMZN", "GOOG", "NFLX", "MSFT"]
-for stock in stocks:
+def graph_stock(stock):
     # y-axis for our graph
-    stock_closing = np.array(get_closing_one(stock))
+    stock_closing = np.array(get_closing(stock))
     # x-axis for our graph
     days = list(range(1, len(stock_closing) + 1))
     # Plot the graph
@@ -49,3 +62,14 @@ for stock in stocks:
 
     # render graph
     plt.show()
+
+
+# Create charts directory
+try:
+    Path("charts").mkdir()
+except FileExistsError:
+    pass
+
+for stock in get_stocks():
+    get_closing(stock)
+    graph_stock(stock)
