@@ -50,5 +50,10 @@ for stock in stocks:
     plt.title(f"Closing Price for {stock}")
     plt.xlabel("Days")
     plt.ylabel("Closing Price")
+
+    # Save files to charts directory
+    save_file = f"charts/{stock}.png"
+    plt.savefig(save_file)
+
     # render graph
     plt.show()
