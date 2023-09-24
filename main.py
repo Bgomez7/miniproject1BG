@@ -27,7 +27,6 @@ def get_stocks():
     return stocks
 
 
-
 def get_closing(ticker):
     # Get 10 day history of a stock
     hist = yf.Ticker(ticker).history(period="10d")
